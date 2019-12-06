@@ -14,6 +14,7 @@ import DashboardRootPage from 'pages/Dashboard/Root';
 import CommandsPage from 'pages/Commands';
 import NotFoundPage from 'pages/NotFound';
 import StatusPage from 'pages/Status';
+import GamePage from 'pages/Game';
 
 const Root = () => (
 	<StylesProvider injectFirst>
@@ -26,6 +27,7 @@ const Root = () => (
 					<Route exact path="/oauth/guild" component={GuildCallbackPage} />
 					<Route exact path="/commands" component={CommandsPage} />
 					<Route exact path="/status" component={StatusPage} />
+                    <Route exact path="/game" component={GamePage} />
 					<AuthenticatedRoute path="/guilds/:guildID/:pageName?" component={DashboardRootPage} />
 					<UnauthenticatedRoute path="/login" component={() => window.location.replace(oauthURL.toString())} />
 					<Route component={NotFoundPage} />
