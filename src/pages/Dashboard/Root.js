@@ -17,7 +17,6 @@ import {
 	Button,
 	Collapse,
 	Slide,
-	Avatar,
 	Box,
 	Fade
 } from '@material-ui/core';
@@ -37,6 +36,7 @@ import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 
 import AuthenticatedRoute from 'components/AuthenticatedRoute';
 import UserMenu from 'components/UserMenu';
+import GuildIcon from 'components/GuildIcon';
 import SettingsPage from 'pages/Dashboard/SettingsPage';
 import StarboardPage from 'pages/Dashboard/Starboard';
 import LogsPage from 'pages/Dashboard/LogsPage';
@@ -259,7 +259,7 @@ class Root extends Component {
 				<ServerHeader>
 					{guildData ? (
 						<Fragment>
-							<Avatar alt="" src={`https://cdn.discordapp.com/icons/${guildID}/${guildData.icon}?size=512`} />
+							<GuildIcon guild={guildData} size={256} />
 							<Typography variant="subtitle2" style={{ marginTop: 15 }}>
 								{guildData.name}
 							</Typography>
