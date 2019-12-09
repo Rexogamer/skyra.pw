@@ -51,6 +51,7 @@ import InvitesFilterPage from './Filter/Invites';
 import MessagesFilterPage from './Filter/Messages';
 import NewLinesFilterPage from './Filter/NewLines';
 import ReactionsFilterPage from './Filter/Reactions';
+import GamePage from './Game';
 
 // Overwrite arrays when merging
 const mergeOptions = {
@@ -108,12 +109,12 @@ const styles = theme => ({
 	},
 	guildImage: {
 		...theme.mixins.toolbar,
-		'padding': `0px ${theme.spacing(3)}px`,
-		'background': theme.palette.primary.main,
-		'color': theme.palette.primary.contrastText,
-		'display': 'flex',
-		'justifyContent': 'space-between',
-		'alignItems': 'center',
+		padding: `0px ${theme.spacing(3)}px`,
+		background: theme.palette.primary.main,
+		color: theme.palette.primary.contrastText,
+		display: 'flex',
+		justifyContent: 'space-between',
+		alignItems: 'center',
 		'&:hover': {
 			cursor: 'pointer'
 		}
@@ -140,9 +141,9 @@ const styles = theme => ({
 		background: theme.palette.secondary.main
 	},
 	fabContainer: {
-		'position': 'fixed',
-		'bottom': 30,
-		'right': 30,
+		position: 'fixed',
+		bottom: 30,
+		right: 30,
 		'& button': {
 			marginLeft: 30
 		}
@@ -156,7 +157,6 @@ const styles = theme => ({
 });
 
 class Root extends Component {
-
 	state = {
 		mobileOpen: false,
 		guildData: null,
@@ -472,6 +472,12 @@ class Root extends Component {
 									<AuthenticatedRoute
 										exact
 										componentProps={{ ...componentProps }}
+										path="/guilds/:guildID/game"
+										component={GamePage}
+									/>
+									<AuthenticatedRoute
+										exact
+										componentProps={{ ...componentProps }}
 										path="/guilds/:guildID/starboard"
 										component={StarboardPage}
 									/>
@@ -558,7 +564,6 @@ class Root extends Component {
 			</div>
 		);
 	}
-
 }
 
 export default withStyles(styles)(Root);
