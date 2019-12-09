@@ -55,21 +55,15 @@ const skeletons = [];
 let tileWidthHalf;
 let tileHeightHalf;
 
-let d = 0;
-
 export class BaseScene extends Phaser.Scene {
-	preload() {
-		this.load.json('map', grassWaterJson);
-		this.load.spritesheet('tiles', grassWaterPNG, { frameWidth: 64, frameHeight: 64 });
-		this.load.spritesheet('skeleton', skeletonImage, { frameWidth: 128, frameHeight: 128 });
-		this.load.image('house', rem);
-	}
-
-	create() {
-		// Our Skeleton class
+	addUser(user) {
+		// why tf we declaring a class in here
 		class Skeleton extends Phaser.GameObjects.Image {
 			constructor(scene, x, y, motion, direction, distance) {
 				super(scene, x, y, 'skeleton', directions[direction].offset + anims[motion]);
+				this.text = scene.add.text(x, y, user.displayName, { font: '14px Arial Black', fill: '#fff' });
+				this.text.depth = 999;
+
 				this.startX = x;
 				this.startY = y;
 				this.distance = distance;
@@ -146,40 +140,29 @@ export class BaseScene extends Phaser.Scene {
 						this.startY = this.y;
 					}
 				}
+				this.text.x = this.x;
+				this.text.y = this.y;
 			}
 		}
-
-		this.buildMap();
-		this.placeHouses();
-
-		skeletons.push(this.add.existing(new Skeleton(this, 240, 290, 'walk', 'southEast', 100)));
-		skeletons.push(this.add.existing(new Skeleton(this, 100, 380, 'walk', 'southEast', 230)));
-		skeletons.push(this.add.existing(new Skeleton(this, 620, 140, 'walk', 'south', 380)));
-		skeletons.push(this.add.existing(new Skeleton(this, 460, 180, 'idle', 'south', 0)));
-
-		skeletons.push(this.add.existing(new Skeleton(this, 760, 100, 'attack', 'southEast', 0)));
-		skeletons.push(this.add.existing(new Skeleton(this, 800, 140, 'attack', 'northWest', 0)));
-
-		skeletons.push(this.add.existing(new Skeleton(this, 750, 480, 'walk', 'east', 200)));
-
-		skeletons.push(this.add.existing(new Skeleton(this, 1030, 300, 'die', 'west', 0)));
-
-		skeletons.push(this.add.existing(new Skeleton(this, 1180, 340, 'attack', 'northEast', 0)));
-
-		skeletons.push(this.add.existing(new Skeleton(this, 1180, 180, 'walk', 'southEast', 160)));
-
-		skeletons.push(this.add.existing(new Skeleton(this, 1450, 320, 'walk', 'southWest', 320)));
-		skeletons.push(this.add.existing(new Skeleton(this, 1500, 340, 'walk', 'southWest', 340)));
-		skeletons.push(this.add.existing(new Skeleton(this, 1550, 360, 'walk', 'southWest', 330)));
 
 		const locations = ['southEast', 'southWest', 'east', 'west', 'south'];
 		const randomDirection = () => locations[Math.floor(Math.random() * locations.length)];
 
-		const addSkeleton = () => {
-			skeletons.push(this.add.existing(new Skeleton(this, rand(1, 900), rand(1, 500), 'walk', randomDirection(), 330)));
-		};
+		skeletons.push(this.add.existing(new Skeleton(this, rand(1, 900), rand(1, 500), 'walk', randomDirection(), 330)));
+	}
 
-		setInterval(addSkeleton, 100);
+	preload() {
+		this.load.json('map', grassWaterJson);
+		this.load.spritesheet('tiles', grassWaterPNG, { frameWidth: 64, frameHeight: 64 });
+		this.load.spritesheet('skeleton', skeletonImage, { frameWidth: 128, frameHeight: 128 });
+		this.load.image('house', rem);
+	}
+
+	create() {
+		// Our Skeleton class
+
+		this.buildMap();
+		this.placeHouses();
 
 		// this.cameras.main.setSize(1600, 600);
 
@@ -240,19 +223,5 @@ export class BaseScene extends Phaser.Scene {
 		});
 
 		// return;
-
-		if (d) {
-			this.cameras.main.scrollX -= 0.5;
-
-			if (this.cameras.main.scrollX <= 0) {
-				d = 0;
-			}
-		} else {
-			this.cameras.main.scrollX += 0.5;
-
-			if (this.cameras.main.scrollX >= 800) {
-				d = 1;
-			}
-		}
 	}
 }
